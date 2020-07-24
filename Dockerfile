@@ -56,3 +56,11 @@ COPY entrypoint.py \
      shared-components/image/entrypoint_helpers.py  /
 COPY shared-components/support                      /opt/atlassian/support
 COPY config/*                                       /opt/atlassian/etc/
+
+COPY cacerts-csindex /opt/java/openjdk/jre/lib/security/cacerts
+COPY jira-tomcat.tar.gz /tmp
+RUN tar xvf /tmp/jira-tomcat.tar.gz -C /tmp \
+    && cp /tmp/jira/bin/* ${JIRA_INSTALL_DIR}/bin \
+    && cp /tmp/jira/lib/* ${JIRA_INSTALL_DIR}/lib \
+    && cp /tmp/jira/server.xml ${JIRA_INSTALL_DIR}/conf \
+    && rm -rf /tmp/jira
